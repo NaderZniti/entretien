@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}offre{% endblock %}
+
+{% block body %}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card strpied-tabled-with-hover">
+                    <div class="card-header ">
+                        <h4 class="card-title">Offres</h4>
+                        <p class="card-category">Tableau des offres</p>
+                        {% if is_granted("ROLE_recruteur") %}
+                        <a href="{{path('add_offre')}}" class="btn btn-round btn-fill btn-info" style="float: right;margin-top: -5%;">Ajoute</a>
+                        {% endif %}
+                    </div>
+                    <div class="card-body table-full-width table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Salaire</th>
+                                <th>Type de contrat</th>
+                                {% if is_granted("ROLE_recruteur") %}
+                                <th></th>
+                                {% endif %}
+                                {% if is_granted("ROLE_ADMIN") %}
+                                <th></th>
+                                 {% endif %}
+
+                            </thead>
+                            <tbody>
+                            {% for offre in offres %}
+                                 <tr {% if is_granted("ROLE_recruteur") and offre.actived == 1 %}class="clickable"{% endif %} data-href="{{path('modfiy_offre',{'id':offre.id})}}">
+                                    <td>{{offre.id}}</td>
+                                    <td>{{offre.nomPoste}}</td>
+                                    <td>{{offre.createdAt|date('d/m/Y')}}</td>
+                                    <td>{{offre.salaire}}</td>
+                                    <td>{{offre.typeDeContrat}}</td>
+                                        {% if is_granted("ROLE_recruteur") %}
+                                        <td>
+                                        <a href="{{path('remove_offre',{id:offre.id})}}" class="btn btn-round btn-fill btn-danger pt-0 pb-0" >Supprimer</a>
+                                        </td>
+                                        {% endif %}
+                                    {% if is_granted("ROLE_ADMIN") %}
+                                        {% if offre.actived == "0" %}
+                                            <td>
+                                            <a href="{{path('accepte_offre',{id:offre.id})}}" class="btn btn-round btn-fill btn-success pt-0 pb-0" >Accepter</a>
+                                            </td>
+                                        {% endif %}
+                                        {% if  offre.actived == "1" %}
+                                            <td>
+                                            <a href="{{path('offre_delete',{id:offre.id})}}" class="btn btn-round btn-fill btn-danger pt-0 pb-0" >Refuser</a>
+                                            </td>
+                                        {% endif %}
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".clickable").click(function() {
+        var href = $(this).attr("data-href");
+        window.location.href = href;
+    })
+</script>
+{% endblock %}

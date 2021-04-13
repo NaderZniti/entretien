@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}update{% endblock %}
+
+{% block body %}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Offres</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{path('modfiy_offre_check',{id:offre.id})}}" method="POST">
+                            <div class="row">
+                                <div class="col-md-12 pl-3">
+                                    <div class="form-group">
+                                        <label>Nom*</label>
+                                        <input type="text" class="form-control" name="nom" placeholder="" value="{{offre.nomPoste}}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pl-3">
+                                    <div class="form-group">
+                                        <label>Salaire*</label>
+                                        <input type="text" class="form-control" name="salaire" placeholder="" value="{{offre.salaire}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pl-3">
+                                    <div class="form-group">
+                                        <label>Type de contrat*</label>
+                                        <select class="form-control" name="type_de_contrat" placeholder="" value="" required>
+                                            <option value="CDI">CDI</option>
+                                            <option value="CDD">CDD</option>
+                                            <option value="SVP">SVP</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 pl-3">
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea class="form-control" name="description" rows="10"> {{offre.descriptions}} </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{path('offre')}}" class="btn btn-info btn-fill pull-left">Annuler</a>
+                            <button type="submit" class="btn btn-success btn-fill pull-left ml-2">Update</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
